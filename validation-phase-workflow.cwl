@@ -100,7 +100,7 @@ steps:
       - id: filepath
       
     validate:
-    run: writeup-workflow/validate.cwl
+    run: writeup/validate.cwl
     in:
       - id: synapse_config
         source: "#synapseConfig"
