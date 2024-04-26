@@ -34,7 +34,7 @@ inputs:
     type: string
   - id: admin
     type: string
-    default: "mdsage1"  # TODO: enter admin username (they will become the archive owner)
+    default: "MIDI-B De-identification Organizers"
 
 outputs: {}
 
