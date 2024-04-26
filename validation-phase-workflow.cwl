@@ -39,7 +39,7 @@ steps:
       https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/set_permissions.cwl
     in:
       - id: entityid
-        source: "#submitterUploadSynId"
+        source: "#adminUploadSynId"
       - id: principalid
         source: "#organizers"
       - id: permissions
