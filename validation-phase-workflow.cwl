@@ -75,18 +75,19 @@ steps:
       - id: filepath
       - id: entity_id
       - id: entity_type
-      - id: evaluation_id
       - id: results
       
-  create_config_file:
-    run: /bin/bash
-    label: "Create config.json"
-    in:
-      - id: submitter_folder_id
-        source: "#submitter_folder_id"
-      - id: submissionId
-        source: "#submissionId"
-    out: [config_file]
+  # Commented out as this process is still pending 
+  # and this was a placeholder
+  # create_config_file:
+  #   run: /bin/bash
+  #   label: "Create config.json"
+  #   in:
+  #     - id: submitter_folder_id
+  #       source: "#submitter_folder_id"
+  #     - id: submissionId
+  #       source: "#submissionId"
+  #   out: [config_file]
 
   download_goldstandard:
     run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
