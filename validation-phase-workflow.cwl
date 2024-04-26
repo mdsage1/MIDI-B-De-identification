@@ -161,7 +161,7 @@ steps:
     out: [finished]
  
   archive:
-    run: archive.cwl
+    run: writeup/archive.cwl
     in:
       - id: synapse_config
         source: "#synapseConfig"
