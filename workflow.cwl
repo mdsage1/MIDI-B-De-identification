@@ -172,7 +172,7 @@ steps:
       - id: submissionid
         source: "#submissionId"
       - id: admin
-        source: "#admin"
+        source: "#organizers"
       - id: check_validation_finished 
         source: "#check_status/finished"
     out:
