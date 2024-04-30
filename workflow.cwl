@@ -35,6 +35,28 @@ inputs:
 outputs: {}
 
 steps:
+  create_adminsynid_json:
+    run: steps/create_annotations.cwl
+    in:
+      - id: admin_synid
+        source: "#adminUploadSynId"
+    out: [json_out]
+
+  annotate_adminsynid:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v3.2/cwl/annotate_submission.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: annotation_values
+        source: "#create_adminsynid_json/json_out"
+      - id: to_public
+        default: true
+      - id: force_change_annotation_acl
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
+    
   organizers_log_access:
     doc: >
       Give challenge organizers `download` permissions to the submission logs
