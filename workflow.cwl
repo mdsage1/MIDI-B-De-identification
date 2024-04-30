@@ -18,6 +18,9 @@ inputs:
   submissionId:
     label: Submission ID
     type: int
+  adminUploadSynId:
+    label: Synapse Folder ID accessible by the admin
+    type: string
   submitterUploadSynId:
     label: Synapse Folder ID accessible by the submitter
     type: string
