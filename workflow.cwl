@@ -103,7 +103,7 @@ steps:
     out:
       - id: filepath
       
-    validate:
+  validate:
     run: writeup/validate.cwl
     in:
       - id: synapse_config
