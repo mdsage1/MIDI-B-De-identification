@@ -35,37 +35,37 @@ inputs:
 outputs: {}
 
 steps:
-  # organizers_log_access:
-  #   doc: >
-  #     Give challenge organizers `download` permissions to the submission logs
-  #   run: |-
-  #     https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/set_permissions.cwl
-  #   in:
-  #     - id: entityid
-  #       source: "#adminUploadSynId"
-  #     - id: principalid
-  #       source: "#organizers"
-  #     - id: permissions
-  #       valueFrom: "download"
-  #     - id: synapse_config
-  #       source: "#synapseConfig"
-  #   out: []
+  organizers_log_access:
+    doc: >
+      Give challenge organizers `download` permissions to the submission logs
+    run: |-
+      https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/set_permissions.cwl
+    in:
+      - id: entityid
+        source: "#adminUploadSynId"
+      - id: principalid
+        source: "#organizers"
+      - id: permissions
+        valueFrom: "download"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: []
 
-  # set_submitter_folder_permissions:
-  #   run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/set_permissions.cwl
-  #   in:
-  #     - id: entityid
-  #       source: "#submitterUploadSynId"
-  #     # TODO: replace `valueFrom` with the admin user ID or admin team ID
-  #     - id: principalid
-  #       valueFrom: "#organizers" 
-  #     - id: permissions
-  #       valueFrom: "download"
-  #     - id: synapse_config
-  #       source: "#synapseConfig"
-  #   out: []
+  set_submitter_folder_permissions:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/set_permissions.cwl
+    in:
+      - id: entityid
+        source: "#submitterUploadSynId"
+      # TODO: replace `valueFrom` with the admin user ID or admin team ID
+      - id: principalid
+        valueFrom: "#organizers" 
+      - id: permissions
+        valueFrom: "download"
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: []
     
-    download_submission:
+  download_submission:
     doc: Download submission
     run: |-
       https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/get_submission.cwl
