@@ -24,7 +24,9 @@ inputs:
     type: string?
   - id: synapse_config
     type: File
-  - id: input_file
+  - id: uid_file
+    type: File
+  - id: patid_file
     type: File
 
 arguments:
@@ -59,9 +61,14 @@ outputs:
       glob: results.json
       loadContents: true
       outputEval: $(JSON.parse(self[0].contents)['submission_errors'])
+  
+  - id: validation_results
+    type: File
+    outputBinding:
+      glob: scoring_report.xlsx
 
-baseCommand: run_validation.py config.json
+baseCommand: MIDI_validation_script/run_validation.py config.json
 
 hints:
   DockerRequirement:
-    dockerPull: docker.synapse.org/syn53065762/validate_score:v3
+    dockerPull: docker.synapse.org/syn53065762/validate_score:v4
