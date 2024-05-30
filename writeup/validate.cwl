@@ -72,10 +72,7 @@ outputs:
     outputBinding:
       glob: dciodvfy_report.csv
 
-  - id: discrepancy_results
-    type: File
-    outputBinding:
-      glob: discrepancy_report.csv
+
 
 baseCommand: MIDI_validation_script/run_validation.py config.json
 
