@@ -45,9 +45,9 @@ def create_config(file_paths):
     writeup = None
 
     for file_path in file_paths:
-        if "uid_mapping" in file_path:
+        if "mappings" in file_path and "uid_mapping" in file_path:
             config["uid_mapping_file"] = file_path
-        elif "patid_mapping" in file_path:
+        elif "mappings" in file_path and "patid_mapping" in file_path:
             config["patid_mapping_file"] = file_path
         elif "writeup" in file_path:
             writeup = file_path
