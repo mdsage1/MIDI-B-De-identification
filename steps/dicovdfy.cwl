@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: Run the submission against the Organizers pipeline for Scoring
+label: Run the submission against the Organizers pipeline for dciodvfy
 
 requirements:
   - class: InlineJavascriptRequirement
