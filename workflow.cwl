@@ -92,13 +92,14 @@ steps:
   #       source: "#submissionId"
   #   out: [config_file]
 
-  validate:
+  unzip_generate_config:
     run: steps/unzip_submission.cwl
     in:
       - id: compressed_file
         source: "#download_compressed_file/filepath"
     out:
       - id: config_json
+      - id: writeup_file
 
 
   download_goldstandard:
@@ -115,6 +116,8 @@ steps:
   validate:
     run: writeup/validate.cwl
     in:
+      - id: writeup_file
+        source: "#unzip_generate_config/writeup_file"
       - id: synapse_config
         source: "#synapseConfig"
       - id: submissionid

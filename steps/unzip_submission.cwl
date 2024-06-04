@@ -13,6 +13,8 @@ inputs:
 outputs:
   - id: config_file
     type: File
+  - id: writeup_file
+    type: File
 
 baseCommand: python
 arguments:

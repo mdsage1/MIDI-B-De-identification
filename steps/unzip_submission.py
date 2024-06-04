@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Preparing the submission for Evaluation. MIDI-B 2024
+"""
+Preparing the submission for Evaluation. MIDI-B 2024
 
 Submissions will be made as a compressed collection of 
-files and subfolders. The folllowing should be included
+files and subfolders. The following should be included
 in the submission but only the last 3 will be used in 
 the config.json:
 1. Write-up
@@ -41,20 +42,22 @@ def create_config(file_paths):
     }
 
     images = []
+    writeup = None
 
     for file_path in file_paths:
-        if file_path.contains("uid_mapping"):
+        if "uid_mapping" in file_path:
             config["uid_mapping_file"] = file_path
-        elif file_path.contains("patid_mapping"):
+        elif "patid_mapping" in file_path:
             config["patid_mapping_file"] = file_path
+        elif "writeup" in file_path:
+            writeup = file_path
         else:
             images.append(file_path)
 
     if images:
         config["input_data_path"] = os.path.dirname(images[0])
-
-    with open("config.json", "w") as config_file:
-        json.dump(config, config_file, indent=4)
+    
+    return config, writeup
 
 def main():
     """Main function."""
@@ -67,9 +70,10 @@ def main():
 
     # Create the config.json file using the 
     # filepaths of the submission components
-    create_config(file_paths)
+    config, writeup = create_config(file_paths)
 
-    # Return the config.json content
+    # Print the write-up file path and the config.json content
+    print("Write-up file path:", writeup)
     print(json.dumps(config, indent=4))
 
 if __name__ == "__main__":
