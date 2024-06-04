@@ -101,6 +101,35 @@ steps:
       - id: config_json
       - id: writeup_file
 
+  create_scoring_report:
+    run: steps/score.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
+    out:
+      - id: scoring_results
+      - id: results
+      - id: status
+    
+  create_discrepancy_report:
+    run: steps/discrepancy.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
+    out:
+      - id: discrepancy_results
+      - id: results
+      - id: status
+
+  create_dciovdfy_report:
+    run: steps/dciodvfy.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
+    out:
+      - id: dciovdfy_results
+      - id: results
+      - id: status
 
   # download_goldstandard:
   #   run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl

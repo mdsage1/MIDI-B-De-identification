@@ -12,10 +12,10 @@ inputs:
     type: File
 
 outputs:
-  - id: scoring_results
+  - id: dciodvfy_results
     type: File
     outputBinding:
-      glob: scoringreport.csv
+      glob: dciodvfy_report.csv
 
   - id: results
     type: File
@@ -31,7 +31,7 @@ outputs:
 
 baseCommand: python
 arguments:
-  - valueFrom: MIDI_validation_script/run_validation.py
+  - valueFrom: MIDI_validation_script/run_dciodvfy.py
   - prefix: --config_file
     valueFrom: $(inputs.config_file)
 
