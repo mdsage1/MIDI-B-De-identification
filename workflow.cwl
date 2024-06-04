@@ -92,6 +92,15 @@ steps:
   #       source: "#submissionId"
   #   out: [config_file]
 
+  validate:
+    run: steps/unzip_submission.cwl
+    in:
+      - id: compressed_file
+        source: "#download_compressed_file/filepath"
+    out:
+      - id: config_json
+
+
   download_goldstandard:
     run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
     in:
@@ -101,7 +110,7 @@ steps:
       - id: synapse_config
         source: "#synapseConfig"
     out:
-      - id: filepath
+      - id: filepath_gold
       
   validate:
     run: writeup/validate.cwl
