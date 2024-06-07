@@ -96,7 +96,7 @@ steps:
     run: steps/unzip_submission.cwl
     in:
       - id: compressed_file
-        source: "#download_compressed_file/filepath"
+        source: "#download_submission/filepath"
     out:
       - id: config_json
       - id: writeup_file
