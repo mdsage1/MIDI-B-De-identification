@@ -20,9 +20,16 @@ import json
 import zipfile
 
 def inspect_zip(zip_path):
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall("submission")
-        file_paths = [os.path.join("submission", name) for name in zip_ref.namelist()]
+    if zipfile.is_zipfile(zip_path):
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall("submission")
+            file_paths = [os.path.join("submission", name) for name in zip_ref.namelist()]
+    elif tarfile.is_tarfile(zip_path):
+        with tarfile.open(zip_path, 'r') as tar_ref:
+            tar_ref.extractall("submission")
+            file_paths = [os.path.join("submission", name) for name in tar_ref.getnames()]
+    else:
+        raise ValueError(f"The file {zip_path} is not a valid zip or tar file.")
     return file_paths
 
 def create_config(file_paths):
@@ -78,3 +85,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
