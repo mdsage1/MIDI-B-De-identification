@@ -103,7 +103,7 @@ steps:
       - id: status
       - id: invalid_reasons
 
-  notify_docker_status:
+  notify_filepath_status:
     doc: Notify participant if submission is not a Docker image.
     run: |-
       https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
@@ -138,7 +138,21 @@ steps:
         source: "#synapseConfig"
     out: [finished]
 
-  create_scoring_report:
+  check_filepath_status:
+    doc: >
+      Check the validation status of the submission; if 'INVALID', throw an
+      exception to stop the workflow
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/check_status.cwl
+    in:
+      - id: status
+        source: "#unzip_generate_config/status"
+      - id: previous_annotation_finished
+        source: "#add_status_annots/finished"
+      - id: previous_email_finished
+        source: "#notify_filepath_status/finished"
+    out: [finished]
+    
+    create_scoring_report:
     run: steps/score.cwl
     in:
       - id: config_json
