@@ -18,19 +18,40 @@ import os
 import argparse
 import json
 import zipfile
+import tarfile
 
 def inspect_zip(zip_path):
+    if not os.path.exists("submission"):
+        os.makedirs("submission")
+    
     if zipfile.is_zipfile(zip_path):
-        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-            zip_ref.extractall("submission")
-            file_paths = [os.path.join("submission", name) for name in zip_ref.namelist()]
+        status = "VALID"
+        errors = ""
+        try:
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall("submission")
+                file_paths = [os.path.join("submission", name) for name in zip_ref.namelist()]
+        except Exception as e:
+            status = "INVALID"
+            errors = str(e)
+            file_paths = []
     elif tarfile.is_tarfile(zip_path):
-        with tarfile.open(zip_path, 'r') as tar_ref:
-            tar_ref.extractall("submission")
-            file_paths = [os.path.join("submission", name) for name in tar_ref.getnames()]
+        status = "VALID"
+        errors = ""
+        try:
+            with tarfile.open(zip_path, 'r') as tar_ref:
+                tar_ref.extractall("submission")
+                file_paths = [os.path.join("submission", name) for name in tar_ref.getnames()]
+        except Exception as e:
+            status = "INVALID"
+            errors = str(e)
+            file_paths = []
     else:
-        raise ValueError(f"The file {zip_path} is not a valid zip or tar file.")
-    return file_paths
+        status = "INVALID"
+        errors = f"The file {zip_path} is not a valid zip or tar file."
+        file_paths = []
+    
+    return file_paths, status, errors
 
 def create_config(file_paths):
     """Create config.json from file paths."""
@@ -73,7 +94,11 @@ def main():
                         type=str, required=True)
     args = parser.parse_args()
 
-    file_paths = inspect_zip(args.compressed_file)
+    file_paths, status, errors = inspect_zip(args.compressed_file)
+
+    if status == "INVALID":
+        print(f"Error: {errors}")
+        return
 
     # Create the config.json file using the 
     # filepaths of the submission components
@@ -85,4 +110,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

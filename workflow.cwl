@@ -100,6 +100,43 @@ steps:
     out:
       - id: config_json
       - id: writeup_file
+      - id: status
+      - id: invalid_reasons
+
+  notify_docker_status:
+    doc: Notify participant if submission is not a Docker image.
+    run: |-
+      https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: synapse_config
+        source: "#synapseConfig"
+      - id: status
+        source: "#unzip_generate_config/status"
+      - id: invalid_reasons
+        source: "#unzip_generate_config/invalid_reasons"
+      - id: errors_only
+        default: true
+    out: [finished]
+
+  add_status_annots:
+    doc: >
+      Add 'submission_status' and 'submission_errors' annotations to the
+      submission
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: annotation_values
+        source: "#unzip_generate_config/results"
+      - id: to_public
+        default: true
+      - id: force
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
 
   create_scoring_report:
     run: steps/score.cwl
