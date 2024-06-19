@@ -18,9 +18,9 @@ outputs:
       glob: dciodvfy_report.csv
 
   # - id: results
-    # type: File
-    # outputBinding:
-    #   glob: results.json
+  #   type: File
+  #   outputBinding:
+  #     glob: results.json
 
   # - id: status
   #   type: string

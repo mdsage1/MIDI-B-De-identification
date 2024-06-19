@@ -18,6 +18,8 @@ requirements:
 
       parser = argparse.ArgumentParser()
       parser.add_argument("--dciovdfy_file", required=True)
+      parser.add_argument("--discrepancy_file", required=True)
+      parser.add_argument("--scoring_file", required=True)
       parser.add_argument("-c", "--synapse_config", required=True)
       parser.add_argument("--parent_id", required=True)
       args = parser.parse_args()
@@ -25,12 +27,27 @@ requirements:
       syn = synapseclient.Synapse(configPath=args.synapse_config)
       syn.login()
 
-      results = {}
+      dciovdfy_results = {}
+      discrepancy_results = {}
+      scoring_results = {}
+
       dciovdfy = synapseclient.File(args.dciovdfy_file, parent=args.parent_id)
       dciovdfy = syn.store(dciovdfy)
-      results['dciovdfy'] = dciovdfy.id
+      dciovdfy_results['dciovdfy'] = dciovdfy.id
       with open('results.json', 'w') as out:
-        out.write(json.dumps(results))
+          out.write(json.dumps(dciovdfy_results))
+
+      discrepancy = synapseclient.File(args.discrepancy_file, parent=args.parent_id)
+      discrepancy = syn.store(discrepancy)
+      discrepancy_results['discrepancy'] = discrepancy.id
+      with open('results.json', 'w') as out:
+          out.write(json.dumps(discrepancy_results))
+
+      scoring = synapseclient.File(args.scoring_file, parent=args.parent_id)
+      scoring = syn.store(scoring)
+      scoring_results['scoring'] = scoring.id
+      with open('results.json', 'w') as out:
+          out.write(json.dumps(scoring_results))
 
 inputs:
 - id: dciovdfy_results
@@ -59,7 +76,7 @@ arguments:
   valueFrom: $(inputs.dciovdfy_results)
 - prefix: -c
   valueFrom: $(inputs.synapse_config.path)
-- prefix: --parent
+- prefix: --parent_id
   valueFrom: $(inputs.parent_id)
 
 hints:

@@ -79,18 +79,6 @@ steps:
       - id: entity_id
       - id: entity_type
       - id: results
-      
-  # Commented out as this process is still pending 
-  # and this was a placeholder
-  # create_config_file:
-  #   run: /bin/bash
-  #   label: "Create config.json"
-  #   in:
-  #     - id: submitter_folder_id
-  #       source: "#submitter_folder_id"
-  #     - id: submissionId
-  #       source: "#submissionId"
-  #   out: [config_file]
 
   unzip_generate_config:
     run: steps/unzip_submission.cwl
@@ -152,7 +140,7 @@ steps:
         source: "#notify_filepath_status/finished"
     out: [finished]
     
-    create_scoring_report:
+  create_scoring_report:
     run: steps/score.cwl
     in:
       - id: config_json
@@ -162,6 +150,7 @@ steps:
       - id: results
       - id: status
     
+
   create_discrepancy_report:
     run: steps/discrepancy.cwl
     in:
@@ -171,6 +160,7 @@ steps:
       - id: discrepancy_results
       - id: results
       - id: status
+
 
   create_dciovdfy_report:
     run: steps/dciodvfy.cwl
@@ -182,6 +172,24 @@ steps:
       - id: results
       - id: status
 
+  upload_to_synapse:
+    run: steps/synapse_upload.cwl
+    in:
+      - id: synapse_config   # this input is needed so that uploading to Synapse is possible
+        source: "#synapseConfig"
+      - id: parent_id  # this input is needed so that Synapse knows where to upload file
+        source: "#adminUploadSynId"
+      - id: dciovdfy_results
+        source: "#create_dciovdfy_report/dciovdfy_results"
+      - id: discrepancy_results
+        source: "#create_dciovdfy_report/discrepancy_results"
+      - id: scoring_results
+        source: "#create_scoring_report/scoring_results"
+    out:
+      - id: dciovdfy_synid
+      - id: discrepancy_synid
+      - id: dciovdfy_synid
+      
   # download_goldstandard:
   #   run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
   #   in:
