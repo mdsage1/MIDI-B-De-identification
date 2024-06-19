@@ -158,7 +158,6 @@ steps:
         source: "#unzip_generate_config/config_json"
     out:
       - id: discrepancy_results
-      - id: results
       - id: status
 
 
