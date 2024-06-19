@@ -168,7 +168,6 @@ steps:
     out:
       - id: dciovdfy_results
       - id: results
-      - id: status
 
   upload_to_synapse:
     run: steps/synapse_upload.cwl
