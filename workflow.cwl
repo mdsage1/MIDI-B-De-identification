@@ -188,7 +188,7 @@ steps:
     out:
       - id: dciovdfy_synid
       - id: discrepancy_synid
-      - id: dciovdfy_synid
+      - id: scoring_synid
       
   # download_goldstandard:
   #   run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
