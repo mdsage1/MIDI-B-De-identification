@@ -167,7 +167,6 @@ steps:
         source: "#unzip_generate_config/config_json"
     out:
       - id: dciovdfy_results
-      - id: results
 
   upload_to_synapse:
     run: steps/synapse_upload.cwl
