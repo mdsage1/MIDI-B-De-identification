@@ -178,7 +178,7 @@ steps:
       - id: dciovdfy_results
         source: "#create_dciovdfy_report/dciovdfy_results"
       - id: discrepancy_results
-        source: "#create_dciovdfy_report/discrepancy_results"
+        source: "#create_discrepancy_report/discrepancy_results"
       - id: scoring_results
         source: "#create_scoring_report/scoring_results"
     out:
