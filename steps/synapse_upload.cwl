@@ -41,7 +41,7 @@ requirements:
       scoring = syn.store(scoring)
       results['scoring'] = scoring.id
       with open('results.json', 'w') as out:
-          out.write(json.dumps(results, out))
+          json.dump(results, out)
 
 inputs:
 - id: dciovdfy_results
