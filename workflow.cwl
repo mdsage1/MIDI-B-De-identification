@@ -197,6 +197,25 @@ steps:
   #   out:
   #     - id: filepath_gold
       
+  annotate_validation_with_output:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+    in:
+      - id: dciovdfy_synid
+        source: "#upload_to_synapse/dciovdfy_synid"
+      - id: discrepancy_synid
+        source: "#upload_to_synapse/discrepancy_synid"
+      - id: scoring_synid
+        source: "#upload_to_synapse/scoring_synid"
+      - id: annotation_values
+        source: "#validate/results"
+      - id: to_public
+        default: true
+      - id: force
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
+  
   validate:
     run: writeup/validate.cwl
     in:
