@@ -196,7 +196,7 @@ steps:
   #       source: "#synapseConfig"
   #   out:
   #     - id: filepath_gold
-      
+  
   annotate_validation_with_output:
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
     in:
@@ -215,7 +215,6 @@ steps:
       - id: synapse_config
         source: "#synapseConfig"
     out: [finished]
-  
   validate:
     run: writeup/validate.cwl
     in:
