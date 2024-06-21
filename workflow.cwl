@@ -197,11 +197,11 @@ steps:
   #   out:
   #     - id: filepath_gold
   
-  annotate_validation_with_output:
+  annotate_full_evaluation_with_output:
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
     in:
       - id: annotation_values
-        source: "#validate/results"
+        source: "#upload_to_synapse/results"
       - id: to_public
         default: true
       - id: force
@@ -209,6 +209,7 @@ steps:
       - id: synapse_config
         source: "#synapseConfig"
     out: [finished]
+  
   validate:
     run: writeup/validate.cwl
     in:
