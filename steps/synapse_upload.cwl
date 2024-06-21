@@ -60,7 +60,6 @@ outputs:
   type: File
   outputBinding:
     glob: results.json
-outputs:
   - id: dciovdfy_synid
     type: string
     outputBinding:
