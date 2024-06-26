@@ -60,26 +60,26 @@ outputs:
   type: File
   outputBinding:
     glob: results.json
-  - id: dciovdfy_synid
-    type: string
-    outputBinding:
-      glob: results.json
-      outputEval: $(JSON.parse(self[0].contents)['dciovdfy'])
-      loadContents: true
+- id: dciovdfy_synid
+  type: string
+  outputBinding:
+    glob: results.json
+    outputEval: $(JSON.parse(self[0].contents)['dciovdfy'])
+    loadContents: true
 
-  - id: discrepancy_synid
-    type: string
-    outputBinding:
-      glob: results.json
-      outputEval: $(JSON.parse(self[0].contents)['discrepancy'])
-      loadContents: true
+- id: discrepancy_synid
+  type: string
+  outputBinding:
+    glob: results.json
+    outputEval: $(JSON.parse(self[0].contents)['discrepancy'])
+    loadContents: true
 
-  - id: scoring_synid
-    type: string
-    outputBinding:
-      glob: results.json
-      outputEval: $(JSON.parse(self[0].contents)['scoring'])
-      loadContents: true
+- id: scoring_synid
+  type: string
+  outputBinding:
+    glob: results.json
+    outputEval: $(JSON.parse(self[0].contents)['scoring'])
+    loadContents: true
 
 
 baseCommand: python3
