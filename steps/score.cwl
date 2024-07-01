@@ -2,44 +2,26 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-label: Score predictions file
+label: Run the submission against the Organizers pipeline for Scoring
 
 requirements:
   - class: InlineJavascriptRequirement
-  - class: InitialWorkDirRequirement
-    listing:
-    - entryname: score.py
-      entry: |
-        #!/usr/bin/env python
-        import argparse
-        import json
-        parser = argparse.ArgumentParser()
-        parser.add_argument("-f", "--submissionfile", required=True, help="Submission File")
-        parser.add_argument("-r", "--results", required=True, help="Scoring results")
-        parser.add_argument("-g", "--goldstandard", required=True, help="Goldstandard for scoring")
-
-        args = parser.parse_args()
-        score = 1 + 1
-        prediction_file_status = "SCORED"
-
-        result = {'auc': score,
-                  'submission_status': prediction_file_status}
-        with open(args.results, 'w') as o:
-          o.write(json.dumps(result))
 
 inputs:
-  - id: input_file
+  - id: config_file
     type: File
-  - id: goldstandard
-    type: File
-  - id: check_validation_finished
-    type: boolean?
 
 outputs:
+  - id: scoring_results
+    type: File
+    outputBinding:
+      glob: scoringreport.csv
+
   - id: results
     type: File
     outputBinding:
       glob: results.json
+
   - id: status
     type: string
     outputBinding:
@@ -49,14 +31,10 @@ outputs:
 
 baseCommand: python
 arguments:
-  - valueFrom: score.py
-  - prefix: -f
-    valueFrom: $(inputs.input_file.path)
-  - prefix: -g
-    valueFrom: $(inputs.goldstandard.path)
-  - prefix: -r
-    valueFrom: results.json
+  - valueFrom: MIDI_validation_script/run_validation.py
+  - prefix: --config_file
+    valueFrom: $(inputs.config_file)
 
 hints:
   DockerRequirement:
-    dockerPull: python:3.9.1-slim-buster
+    dockerPull: docker.synapse.org/syn53065762/validate_score:v4

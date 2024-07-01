@@ -79,33 +79,143 @@ steps:
       - id: entity_id
       - id: entity_type
       - id: results
-      
-  # Commented out as this process is still pending 
-  # and this was a placeholder
-  # create_config_file:
-  #   run: /bin/bash
-  #   label: "Create config.json"
-  #   in:
-  #     - id: submitter_folder_id
-  #       source: "#submitter_folder_id"
-  #     - id: submissionId
-  #       source: "#submissionId"
-  #   out: [config_file]
 
-  download_goldstandard:
-    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
+  unzip_generate_config:
+    run: steps/unzip_submission.cwl
     in:
-      # TODO: replace `valueFrom` with the Synapse ID to the challenge goldstandard
-      - id: synapseid
-        valueFrom: "syn58613732"
+      - id: compressed_file
+        source: "#download_submission/filepath"
+    out:
+      - id: config_json
+      - id: writeup_file
+      - id: status
+      - id: invalid_reasons
+
+  notify_filepath_status:
+    doc: Notify participant if submission is not a Docker image.
+    run: |-
+      https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
       - id: synapse_config
         source: "#synapseConfig"
+      - id: status
+        source: "#unzip_generate_config/status"
+      - id: invalid_reasons
+        source: "#unzip_generate_config/invalid_reasons"
+      - id: errors_only
+        default: true
+    out: [finished]
+
+  add_status_annots:
+    doc: >
+      Add 'submission_status' and 'submission_errors' annotations to the
+      submission
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: annotation_values
+        source: "#unzip_generate_config/results"
+      - id: to_public
+        default: true
+      - id: force
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
+
+  check_filepath_status:
+    doc: >
+      Check the validation status of the submission; if 'INVALID', throw an
+      exception to stop the workflow
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/check_status.cwl
+    in:
+      - id: status
+        source: "#unzip_generate_config/status"
+      - id: previous_annotation_finished
+        source: "#add_status_annots/finished"
+      - id: previous_email_finished
+        source: "#notify_filepath_status/finished"
+    out: [finished]
+    
+  create_scoring_report:
+    run: steps/score.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
     out:
-      - id: filepath
+      - id: scoring_results
+      - id: results
+      - id: status
+    
+
+  create_discrepancy_report:
+    run: steps/discrepancy.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
+    out:
+      - id: discrepancy_results
+
+
+  create_dciovdfy_report:
+    run: steps/dciodvfy.cwl
+    in:
+      - id: config_json
+        source: "#unzip_generate_config/config_json"
+    out:
+      - id: dciovdfy_results
+
+  upload_to_synapse:
+    run: steps/synapse_upload.cwl
+    in:
+      - id: synapse_config   # this input is needed so that uploading to Synapse is possible
+        source: "#synapseConfig"
+      - id: parent_id  # this input is needed so that Synapse knows where to upload file
+        source: "#adminUploadSynId"
+      - id: dciovdfy_results
+        source: "#create_dciovdfy_report/dciovdfy_results"
+      - id: discrepancy_results
+        source: "#create_discrepancy_report/discrepancy_results"
+      - id: scoring_results
+        source: "#create_scoring_report/scoring_results"
+    out:
+      - id: dciovdfy_synid
+      - id: discrepancy_synid
+      - id: scoring_synid
+      - id: results
       
+  # download_goldstandard:
+  #   run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/cwl-tool-synapseclient/v1.4/cwl/synapse-get-tool.cwl
+  #   in:
+  #     # TODO: replace `valueFrom` with the Synapse ID to the challenge goldstandard
+  #     - id: synapseid
+  #       valueFrom: "syn58613732"
+  #     - id: synapse_config
+  #       source: "#synapseConfig"
+  #   out:
+  #     - id: filepath_gold
+  
+  annotate_full_evaluation_with_output:
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+    in:
+      - id: annotation_values
+        source: "#upload_to_synapse/results"
+      - id: to_public
+        default: true
+      - id: force
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
+  
   validate:
     run: writeup/validate.cwl
     in:
+      - id: writeup_file
+        source: "#unzip_generate_config/writeup_file"
       - id: synapse_config
         source: "#synapseConfig"
       - id: submissionid
