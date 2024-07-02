@@ -15,6 +15,16 @@ outputs:
     type: File
   - id: writeup_file
     type: File
+  - id: results
+    type: File
+    outputBinding:
+      glob: results.json
+  - id: status
+    type: string
+    outputBinding:
+      glob: results.json
+      outputEval: $(JSON.parse(self[0].contents)['submission_status'])
+      loadContents: true
 
 baseCommand: python
 arguments:

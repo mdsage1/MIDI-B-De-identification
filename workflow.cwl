@@ -90,6 +90,7 @@ steps:
       - id: writeup_file
       - id: status
       - id: invalid_reasons
+      - id: results
 
   notify_filepath_status:
     doc: Notify participant if submission is not a Docker image.
@@ -161,12 +162,12 @@ steps:
 
 
   create_dciovdfy_report:
-    run: steps/dciodvfy.cwl
+    run: steps/dicovdfy.cwl
     in:
       - id: config_json
         source: "#unzip_generate_config/config_json"
     out:
-      - id: dciovdfy_results
+      - id: dciodvfy_results
 
   upload_to_synapse:
     run: steps/synapse_upload.cwl
@@ -176,7 +177,7 @@ steps:
       - id: parent_id  # this input is needed so that Synapse knows where to upload file
         source: "#adminUploadSynId"
       - id: dciovdfy_results
-        source: "#create_dciovdfy_report/dciovdfy_results"
+        source: "#create_dciovdfy_report/dciodvfy_results"
       - id: discrepancy_results
         source: "#create_discrepancy_report/discrepancy_results"
       - id: scoring_results
