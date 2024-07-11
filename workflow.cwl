@@ -86,10 +86,13 @@ steps:
       - id: compressed_file
         source: "#download_submission/filepath"
     out:
-      - id: config_json
-      - id: writeup_file
+      - id: config_file
+      #remove writeup file output
+      # - id: writeup_file
+      - id: results
       - id: status
       - id: invalid_reasons
+      
 
   notify_filepath_status:
     doc: Notify participant if submission is not a Docker image.
@@ -143,8 +146,8 @@ steps:
   create_scoring_report:
     run: steps/score.cwl
     in:
-      - id: config_json
-        source: "#unzip_generate_config/config_json"
+      - id: config_file
+        source: "#unzip_generate_config/config_file"
     out:
       - id: scoring_results
       - id: results
@@ -154,19 +157,19 @@ steps:
   create_discrepancy_report:
     run: steps/discrepancy.cwl
     in:
-      - id: config_json
-        source: "#unzip_generate_config/config_json"
+      - id: config_file
+        source: "#unzip_generate_config/config_file"
     out:
       - id: discrepancy_results
 
 
-  create_dciovdfy_report:
-    run: steps/dciodvfy.cwl
+  create_dciodvfy_report:
+    run: steps/dicovdfy.cwl
     in:
-      - id: config_json
-        source: "#unzip_generate_config/config_json"
+      - id: config_file
+        source: "#unzip_generate_config/config_file"
     out:
-      - id: dciovdfy_results
+      - id: dciodvfy_results
 
   upload_to_synapse:
     run: steps/synapse_upload.cwl
@@ -175,14 +178,14 @@ steps:
         source: "#synapseConfig"
       - id: parent_id  # this input is needed so that Synapse knows where to upload file
         source: "#adminUploadSynId"
-      - id: dciovdfy_results
-        source: "#create_dciovdfy_report/dciovdfy_results"
+      - id: dciodvfy_results
+        source: "#create_dciodvfy_report/dciodvfy_results"
       - id: discrepancy_results
         source: "#create_discrepancy_report/discrepancy_results"
       - id: scoring_results
         source: "#create_scoring_report/scoring_results"
     out:
-      - id: dciovdfy_synid
+      - id: dciodvfy_synid
       - id: discrepancy_synid
       - id: scoring_synid
       - id: results
@@ -201,6 +204,8 @@ steps:
   annotate_full_evaluation_with_output:
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
     in:
+      - id: submissionid
+        source: "#submissionId"
       - id: annotation_values
         source: "#upload_to_synapse/results"
       - id: to_public
