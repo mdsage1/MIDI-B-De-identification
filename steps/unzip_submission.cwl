@@ -13,18 +13,9 @@ inputs:
 outputs:
   - id: config_file
     type: File
-  - id: writeup_file
-    type: File
-  - id: results
-    type: File
-    outputBinding:
-      glob: results.json
-  - id: status
-    type: string
-    outputBinding:
-      glob: results.json
-      outputEval: $(JSON.parse(self[0].contents)['submission_status'])
-      loadContents: true
+  # remove check for writeup file
+  # - id: writeup_file
+  #   type: File
 
 baseCommand: python
 arguments:
