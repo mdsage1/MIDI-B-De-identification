@@ -38,7 +38,7 @@ outputs:
 
 baseCommand: python
 arguments:
-  - valueFrom: unzip_submission.py
+  - valueFrom: steps/unzip_submission.py
   - prefix: --compressed_file
     valueFrom: $(inputs.compressed_file)
 
