@@ -17,17 +17,17 @@ outputs:
     outputBinding:
       glob: scoringreport.csv
 
-  - id: results
-    type: File
-    outputBinding:
-      glob: results.json
+  # - id: results
+  #   type: File
+  #   outputBinding:
+  #     glob: results.json
 
-  - id: status
-    type: string
-    outputBinding:
-      glob: results.json
-      outputEval: $(JSON.parse(self[0].contents)['submission_status'])
-      loadContents: true
+  # - id: status
+  #   type: string
+  #   outputBinding:
+  #     glob: results.json
+  #     outputEval: $(JSON.parse(self[0].contents)['submission_status'])
+  #     loadContents: true
 
 baseCommand: python
 arguments:
