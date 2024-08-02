@@ -118,6 +118,8 @@ steps:
     in:
       - id: scoring_file
         source: "#create_scoring_report/scoring_results"
+      - id: results_file
+        source: "#create_scoring_report/scoring_results"
       - id: check_validation_finished 
         source: "#notify_filepath_status/finished"
     out:
