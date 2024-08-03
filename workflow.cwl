@@ -193,21 +193,20 @@ steps:
         source: "#synapseConfig"
       - id: parent_id  # this input is needed so that Synapse knows where to upload file
         source: "#adminUploadSynId"
-      # removed since this step is no longer happening
-      # - id: dciodvfy_results
-      #   source: "#create_dciodvfy_report/dciodvfy_results"
-      
-      
     out:
       - id: results
-  
+      # removed since this step is no longer happening
+      # - id: dciodvfy_results
+      #   source: "#create_scoring_report/dciodvfy_results"
+    
   annotate_full_evaluation_with_output:
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
     in:
       - id: submissionid
         source: "#submissionId"
       - id: annotation_values
-        source: "#create_scoring_report/results"
+        # source: "#get_score/results"
+        source: "#upload_to_synapse/results"
       - id: to_public
         default: true
       - id: force
