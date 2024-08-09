@@ -99,4 +99,4 @@ arguments:
 
 hints:
   DockerRequirement:
-    dockerPull: sagebionetworks/synapsepythonclient:v2.7.2
+    dockerPull: sagebionetworks/synapsepythonclient:v2.7.2(synapseenv)
