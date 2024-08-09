@@ -10,7 +10,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--scoring_file", type=str, required=True)
     parser.add_argument("--results_file", type=str, required=True)
-    # parser.add_argument("--output", type=str, default="output_combined.json")
+    parser.add_argument("--output", type=str, default="output_combined.json")
     return parser.parse_args()
 
 def get_score(filename):
@@ -23,7 +23,7 @@ def get_score(filename):
 
     return final_score
 
-def update_results_file(results_file, score):
+def update_results_file(results_file, score, output_file):
     """Update the output file with the new score."""
     try:
         with open(results_file, "r") as file:
@@ -42,7 +42,7 @@ def main():
     score = get_score(args.scoring_file)
     
     # Update the output file with the score
-    update_results_file(args.results_file, score)
+    update_results_file(args.results_file, score, args.output)
 
 if __name__ == "__main__":
     main()
