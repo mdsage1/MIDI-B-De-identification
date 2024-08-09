@@ -216,24 +216,24 @@ steps:
     out: [finished]
   
     
-  annotate_submission_with_output:
-    doc: Update `submission_status` and add scoring metric annotations
-    run: |-
-      https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.0/cwl/annotate_submission.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: annotation_values
-        source: "#get_score/results"
-      - id: to_public
-        default: true
-      - id: force
-        default: true
-      - id: synapse_config
-        source: "#synapseConfig"
-      - id: previous_annotation_finished
-        source: "#add_score_annots/finished"
-    out: [finished] 
+  # annotate_submission_with_output:
+  #   doc: Update `submission_status` and add scoring metric annotations
+  #   run: |-
+  #     https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.0/cwl/annotate_submission.cwl
+  #   in:
+  #     - id: submissionid
+  #       source: "#submissionId"
+  #     - id: annotation_values
+  #       source: "#get_score/results"
+  #     - id: to_public
+  #       default: true
+  #     - id: force
+  #       default: true
+  #     - id: synapse_config
+  #       source: "#synapseConfig"
+  #     - id: previous_annotation_finished
+  #       source: "#add_score_annots/finished"
+  #   out: [finished] 
   # annotate_full_evaluation_with_score:
   #   run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
   #   in:
