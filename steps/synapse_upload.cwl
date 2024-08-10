@@ -61,7 +61,7 @@ requirements:
           # Add the score to synapse
           score = synapseclient.File(args.score_value, parent=args.parent_id)
           score = syn.store(scoring)
-          results['Score'] = data
+          results['score'] = data
 
           with open('results.json', 'w') as out:
               json.dump(results, out)
