@@ -25,13 +25,15 @@ def get_score(filename):
 
 def update_results_file(results_file, score, output_file):
     """Update the output file with the new score."""
-    try:
-        with open(results_file, "r") as file:
-            results_data = json.load(file)
-    except (FileNotFoundError, json.JSONDecodeError):
-        results_data = {}
+    # try:
+    #     with open(results_file, "r") as file:
+    #         results_data = json.load(file)
+    # except (FileNotFoundError, json.JSONDecodeError):
+    #     results_data = {}
 
-    results_data["Score"] = score
+    # results_data["Score"] = score
+    
+    results_data = {"Score": score}
     
     with open(output_file, "w") as file:
         json.dump(results_data, file, indent=4)
