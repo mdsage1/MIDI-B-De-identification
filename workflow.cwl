@@ -145,7 +145,7 @@ steps:
 
   add_status_annots:
     doc: >
-      Add 'status, and 'submission errors' annotation to the submission
+      Add 'status', and 'submission errors' annotation to the submission
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
     in:
       - id: submissionid
