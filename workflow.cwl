@@ -214,11 +214,11 @@ steps:
       exception to stop the workflow
     run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/check_status.cwl
     in:
-      - id: status
-        source: "#create_scoring_report/status"
+      # - id: status
+      #   source: "#create_scoring_report/status"
       - id: previous_annotation_finished
         source: "#add_status_annots/finished"
-      - id: dciodvfy_results
+      - id: status
         source: "#create_dciodvfy_report/status"
     out: [finished]
 
