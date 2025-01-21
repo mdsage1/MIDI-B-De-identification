@@ -97,7 +97,7 @@ steps:
       - id: results_folder
     
   create_dciodvfy_report:
-    run: steps/test.cwl
+    run: steps/dicovdfy.cwl
     in:
       - id: compressed_file
         source: "#download_submission/filepath"
@@ -126,7 +126,7 @@ steps:
         default: true
     out: [finished]
 
-  notify_filepath_status:
+  notify_dciodvfy_status:
     doc: Notify participant if submission is not acceptable.
     run: |-
       https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
