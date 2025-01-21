@@ -71,6 +71,8 @@ inputs:
     type: File
   - id: scoring_results
     type: File
+  - id: dciodvfy_results
+    type: File
   - id: score_value
     type: File
   - id: parent_id
@@ -91,6 +93,8 @@ arguments:
   - valueFrom: $(inputs.discrepancy_results.path)
   - valueFrom: --scoring_file
   - valueFrom: $(inputs.scoring_results.path)
+  - valueFrom: --dciodvfy_results
+  - valueFrom: $(inputs.dciodvfy_results.path)
   - valueFrom: --score_value
   - valueFrom: $(inputs.score_value.path)
   - valueFrom: --synapse_config
