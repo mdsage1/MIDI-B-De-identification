@@ -60,8 +60,10 @@ outputs:
     outputBinding:
       glob: 'results/MIDI_1_1_Testing/discrepancy_report_internal.csv'
 
-  
-
+  results_folder:
+    type: Directory
+    outputBinding:
+      glob: 'results/'
 
 baseCommand: ["/bin/bash", "-c"]
 arguments:
