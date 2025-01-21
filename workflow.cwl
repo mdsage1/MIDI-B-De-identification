@@ -191,6 +191,23 @@ steps:
         source: "#synapseConfig"
     out: [finished]
   
+  add_dciodvfy_annots:
+    doc: >
+      Add 'status', and 'submission errors' annotation to the submission for dciodvfy
+    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+    in:
+      - id: submissionid
+        source: "#submissionId"
+      - id: annotation_values
+        source: "#create_dciodvfy_report/results"
+      - id: to_public
+        default: true
+      - id: force
+        default: true
+      - id: synapse_config
+        source: "#synapseConfig"
+    out: [finished]
+  
   check_filepath_status:
     doc: >
       Check the validation status of the submission; if 'INVALID', throw an
