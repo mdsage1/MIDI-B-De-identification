@@ -201,6 +201,8 @@ steps:
         source: "#create_scoring_report/status"
       - id: previous_annotation_finished
         source: "#add_status_annots/finished"
+      - id: dciodvfy_results
+        source: "#create_dciodvfy_report/status"
     out: [finished]
 
   upload_to_synapse:
