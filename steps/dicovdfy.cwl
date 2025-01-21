@@ -6,17 +6,42 @@ label: Run the submission against the Organizers pipeline for dciodvfy
 
 requirements:
   - class: InlineJavascriptRequirement
-
+  - class: ResourceRequirement
+    ramMin: 16000  # Request 16GB of memory
 inputs:
-  - id: compressed_file
+  compressed_file:
     type: File
+    inputBinding:
+      position: 1  # Ensures this input appears directly as the first argument
 
+  results_folder:
+    type: Directory
+  
 outputs:
-  - id: dciodvfy_results
+  dciodvfy_results:
     type: File
     outputBinding:
-      glob: dciodvfy_report.csv
+      glob: 'results/MIDI_1_1_Testing/dciodvfy/dciodvfy_report.csv'
 
+  results:
+    type: File
+    outputBinding:
+      glob: results.json
+
+  status:
+    type: string
+    outputBinding:
+      glob: results.json
+      outputEval: $(JSON.parse(self[0].contents)['dciovdfy_status'])
+      loadContents: true
+
+  invalid_reasons:
+    type: string
+    outputBinding:
+      glob: results.json
+      outputEval: $(JSON.parse(self[0].contents)['errors'])
+      loadContents: true
+      
   # - id: results
   #   type: File
   #   outputBinding:
@@ -29,12 +54,12 @@ outputs:
   #     outputEval: $(JSON.parse(self[0].contents)['submission_status'])
   #     loadContents: true
 
-baseCommand: python
+baseCommand: ["/bin/bash", "-c"]
 arguments:
-  - valueFrom: /usr/local/bin/MIDI_validation_script/run_dciodvfy.py
-  - prefix: --compressed_file
-    valueFrom: $(inputs.compressed_file.path)
+  - |
+    mkdir dciodvfy && \
+    python /usr/local/bin/MIDI_validation_script/run_dciodvfy.py $(inputs.compressed_file.path)
 
 hints:
   DockerRequirement:
-    dockerPull: docker.synapse.org/syn53065762/validate_score:v12
+    dockerPull: docker.synapse.org/syn53065762/validate_score:v13
