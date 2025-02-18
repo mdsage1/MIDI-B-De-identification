@@ -94,20 +94,21 @@ steps:
       - id: scoring_results
       - id: discrepancy_results
       - id: discrepancy_internal
+      - id: dciodvfy_results
       - id: results_folder
     
-  create_dciodvfy_report:
-    run: steps/dicovdfy.cwl
-    in:
-      - id: compressed_file
-        source: "#download_submission/filepath"
-      - id: results_folder
-        source: "#create_scoring_report/results_folder"
-    out:
-      - id: status
-      - id: invalid_reasons
-      - id: dciodvfy_results
-      - id: results
+  # create_dciodvfy_report:
+  #   run: steps/dicovdfy.cwl
+  #   in:
+  #     - id: compressed_file
+  #       source: "#download_submission/filepath"
+  #     - id: results_folder
+  #       source: "#create_scoring_report/results_folder"
+  #   out:
+  #     - id: status
+  #     - id: invalid_reasons
+  #     - id: dciodvfy_results
+  #     - id: results
       
   notify_filepath_status:
     doc: Notify participant if submission is not acceptable.
@@ -126,22 +127,22 @@ steps:
         default: true
     out: [finished]
 
-  notify_dciodvfy_status:
-    doc: Notify participant if submission is not acceptable.
-    run: |-
-      https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: synapse_config
-        source: "#synapseConfig"
-      - id: status
-        source: "#create_dciodvfy_report/status"
-      - id: invalid_reasons
-        source: "#create_dciodvfy_report/invalid_reasons"
-      - id: errors_only
-        default: true
-    out: [finished]
+  # notify_dciodvfy_status:
+  #   doc: Notify participant if submission is not acceptable.
+  #   run: |-
+  #     https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
+  #   in:
+  #     - id: submissionid
+  #       source: "#submissionId"
+  #     - id: synapse_config
+  #       source: "#synapseConfig"
+  #     - id: status
+  #       source: "#create_dciodvfy_report/status"
+  #     - id: invalid_reasons
+  #       source: "#create_dciodvfy_report/invalid_reasons"
+  #     - id: errors_only
+  #       default: true
+  #   out: [finished]
     
   get_score:
     doc: Isolate the submission score
@@ -191,36 +192,36 @@ steps:
         source: "#synapseConfig"
     out: [finished]
   
-  add_dciodvfy_annots:
-    doc: >
-      Add 'status', and 'submission errors' annotation to the submission for dciodvfy
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
-    in:
-      - id: submissionid
-        source: "#submissionId"
-      - id: annotation_values
-        source: "#create_dciodvfy_report/results"
-      - id: to_public
-        default: true
-      - id: force
-        default: true
-      - id: synapse_config
-        source: "#synapseConfig"
-    out: [finished]
+  # add_dciodvfy_annots:
+  #   doc: >
+  #     Add 'status', and 'submission errors' annotation to the submission for dciodvfy
+  #   run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/annotate_submission.cwl
+  #   in:
+  #     - id: submissionid
+  #       source: "#submissionId"
+  #     - id: annotation_values
+  #       source: "#create_dciodvfy_report/results"
+  #     - id: to_public
+  #       default: true
+  #     - id: force
+  #       default: true
+  #     - id: synapse_config
+  #       source: "#synapseConfig"
+  #   out: [finished]
   
-  check_filepath_status:
-    doc: >
-      Check the validation status of the submission; if 'INVALID', throw an
-      exception to stop the workflow
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/check_status.cwl
-    in:
-      # - id: status
-      #   source: "#create_scoring_report/status"
-      - id: previous_annotation_finished
-        source: "#add_status_annots/finished"
-      - id: status
-        source: "#create_dciodvfy_report/status"
-    out: [finished]
+  # check_filepath_status:
+  #   doc: >
+  #     Check the validation status of the submission; if 'INVALID', throw an
+  #     exception to stop the workflow
+  #   run: https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/check_status.cwl
+  #   in:
+  #     # - id: status
+  #     #   source: "#create_scoring_report/status"
+  #     - id: previous_annotation_finished
+  #       source: "#add_status_annots/finished"
+  #     - id: status
+  #       source: "#create_dciodvfy_report/status"
+  #   out: [finished]
 
   upload_to_synapse:
     run: steps/synapse_upload.cwl
@@ -230,7 +231,7 @@ steps:
       - id: scoring_results
         source: "#create_scoring_report/scoring_results"
       - id: dciodvfy_results
-        source: "#create_dciodvfy_report/dciodvfy_results"
+        source: "#create_scoring_report/dciodvfy_results"
       - id: score_value
         source: "#get_score/results"
       - id: synapse_config   # this input is needed so that uploading to Synapse is possible
