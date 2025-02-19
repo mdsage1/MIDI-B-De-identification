@@ -75,8 +75,8 @@ baseCommand: ["/bin/bash", "-c"]
 arguments:
   - |
     python /usr/local/bin/MIDI_validation_script/run_validation.py $(inputs.compressed_file.path) && \
-    python /usr/local/bin/MIDI_validation_script/run_reports.py /usr/local/bin/config.json && \ #$(inputs.compressed_file.path) && \
-    python /usr/local/bin/MIDI_validation_script/run_dciodvfy.py /usr/local/bin/config.json #$(inputs.compressed_file.path)
+    python /usr/local/bin/MIDI_validation_script/run_reports.py $(inputs.compressed_file.path) && \
+    python /usr/local/bin/MIDI_validation_script/run_dciodvfy.py $(inputs.compressed_file.path)
 
 hints:
   DockerRequirement:
