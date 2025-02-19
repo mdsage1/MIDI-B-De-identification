@@ -126,23 +126,6 @@ steps:
       - id: errors_only
         default: true
     out: [finished]
-
-  # notify_dciodvfy_status:
-  #   doc: Notify participant if submission is not acceptable.
-  #   run: |-
-  #     https://raw.githubusercontent.com/Sage-Bionetworks/ChallengeWorkflowTemplates/v4.1/cwl/validate_email.cwl
-  #   in:
-  #     - id: submissionid
-  #       source: "#submissionId"
-  #     - id: synapse_config
-  #       source: "#synapseConfig"
-  #     - id: status
-  #       source: "#create_dciodvfy_report/status"
-  #     - id: invalid_reasons
-  #       source: "#create_dciodvfy_report/invalid_reasons"
-  #     - id: errors_only
-  #       default: true
-  #   out: [finished]
     
   get_score:
     doc: Isolate the submission score
