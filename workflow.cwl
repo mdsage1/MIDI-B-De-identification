@@ -94,7 +94,7 @@ steps:
       - id: scoring_results
       - id: discrepancy_results
       - id: discrepancy_internal
-      - id: dciodvfy_results
+      # - id: dciodvfy_results
       - id: results_folder
     
   # create_dciodvfy_report:
@@ -213,8 +213,8 @@ steps:
         source: "#create_scoring_report/discrepancy_results"
       - id: scoring_results
         source: "#create_scoring_report/scoring_results"
-      - id: dciodvfy_results
-        source: "#create_scoring_report/dciodvfy_results"
+      # - id: dciodvfy_results
+      #   source: "#create_scoring_report/dciodvfy_results"
       - id: score_value
         source: "#get_score/results"
       - id: synapse_config   # this input is needed so that uploading to Synapse is possible
