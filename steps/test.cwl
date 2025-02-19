@@ -68,16 +68,15 @@ outputs:
   dciodvfy_results:
     type: File
     outputBinding:
-      glob: 'results/MIDI_1_1_Testing/
+      glob: 'results/MIDI_1_1_Testing/dciodvfy_report.csv'
 
 
 baseCommand: ["/bin/bash", "-c"]
 arguments:
   - |
     python /usr/local/bin/MIDI_validation_script/run_validation.py $(inputs.compressed_file.path) && \
-    python /usr/local/bin/MIDI_validation_script/run_import.py /usr/local/bin/MIDI_validation_script/config.json && \
-    python /usr/local/bin/MIDI_validation_script/run_reports.py /usr/local/bin/MIDI_validation_script/config.json && \ #python /usr/local/bin/MIDI_validation_script/run_reports.py /usr/local/bin/MIDI_validation_script/config.json #$(inputs.compressed_file.path) && \
-    python /usr/local/bin/MIDI_validation_script/run_dciodvfy.py /usr/local/bin/MIDI_validation_script/config.json #$(inputs.compressed_file.path)
+    python /usr/local/bin/MIDI_validation_script/run_reports.py /usr/local/bin/config.json && \ #$(inputs.compressed_file.path) && \
+    python /usr/local/bin/MIDI_validation_script/run_dciodvfy.py /usr/local/bin/config.json #$(inputs.compressed_file.path)
 
 hints:
   DockerRequirement:
