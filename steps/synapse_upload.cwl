@@ -104,7 +104,7 @@ arguments:
   - valueFrom: $(inputs.synapse_config.path)
   - valueFrom: --parent_id
   - valueFrom: $(inputs.parent_id)
-  - valueFrom: --dciodvfy_results
+  - valueFrom: --dciodvfy_file
   - valueFrom: $(inputs.dciodvfy_results.path)
 
 hints:
