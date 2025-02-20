@@ -94,7 +94,7 @@ steps:
       - id: scoring_results
       - id: discrepancy_results
       - id: discrepancy_internal
-      # - id: dciodvfy_results
+      - id: dciodvfy_results
       - id: results_folder
     
   # create_dciodvfy_report:
