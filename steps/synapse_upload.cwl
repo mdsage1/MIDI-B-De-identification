@@ -25,6 +25,7 @@ requirements:
           parser.add_argument("--score_value", required=True)
           parser.add_argument("--synapse_config", required=True)
           parser.add_argument("--parent_id", required=True)
+          parser.add_argument("--dciodvfy_file", required=True)
           args = parser.parse_args()
 
           
@@ -53,6 +54,10 @@ requirements:
           discrepancy = synapseclient.File(args.discrepancy_file, parent=args.parent_id)
           discrepancy = syn.store(discrepancy)
           results['discrepancy'] = discrepancy.id
+
+          dciodvfy = synapseclient.File(args.dciodvfy_file, parent=args.parent_id)
+          dciodvfy = syn.store(dciodvfy)
+          results['dciodvfy'] = dciodvfy.id
 
           scoring = synapseclient.File(args.scoring_file, parent=args.parent_id)
           scoring = syn.store(scoring)
