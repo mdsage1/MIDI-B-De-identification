@@ -76,13 +76,13 @@ inputs:
     type: File
   - id: scoring_results
     type: File
-  - id: dciodvfy_results
-    type: File
   - id: score_value
     type: File
   - id: parent_id
     type: string
   - id: synapse_config
+    type: File
+  - id: dciodvfy_results
     type: File
 
 outputs:
@@ -98,14 +98,14 @@ arguments:
   - valueFrom: $(inputs.discrepancy_results.path)
   - valueFrom: --scoring_file
   - valueFrom: $(inputs.scoring_results.path)
-  - valueFrom: --dciodvfy_results
-  - valueFrom: $(inputs.dciodvfy_results.path)
   - valueFrom: --score_value
   - valueFrom: $(inputs.score_value.path)
   - valueFrom: --synapse_config
   - valueFrom: $(inputs.synapse_config.path)
   - valueFrom: --parent_id
   - valueFrom: $(inputs.parent_id)
+  - valueFrom: --dciodvfy_results
+  - valueFrom: $(inputs.dciodvfy_results.path)
 
 hints:
   DockerRequirement:
