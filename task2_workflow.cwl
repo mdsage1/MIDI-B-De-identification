@@ -9,7 +9,8 @@ doc: >
   Medical Image Deidentification Benchmark (MIDI-B) 
   challenge is to guide the assessment of rule-based 
   DICOM image de-identification algorithms using 
-  clinical images with synthetic identifiers.
+  clinical images with synthetic identifiers. 
+  Continuous benchmarking using the test answer key.
 
 requirements:
   - class: StepInputExpressionRequirement
@@ -81,7 +82,7 @@ steps:
       - id: results
 
   create_scoring_report:
-    run: steps/validate.cwl
+    run: steps/test.cwl
     in:
       - id: compressed_file
         source: "#download_submission/filepath"
